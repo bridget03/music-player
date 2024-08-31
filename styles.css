@@ -169,7 +169,7 @@ body {
 .song-option.active .option-menu {
   position: absolute;
   display: flex;
-  background-color: #fff;
+  background-color: #ffffffe3;
   color: #333;
   align-items: center;
   justify-content: center;
