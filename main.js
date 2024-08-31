@@ -14,6 +14,7 @@ const btnForward = $(".icon-forward");
 const btnPrev = $(".icon-previous");
 const btnShuffle = $(".icon-shuffle");
 const btnRepeat = $(".icon-repeat");
+const btnOption = $$(".song-option");
 
 const progress = $(".progress");
 const app = {
@@ -124,8 +125,12 @@ const app = {
                 </div>
             </div>
 
-            <div class="song-option">
+            <div class="song-option" data-index=${index}>
                 <ion-icon name="ellipsis-vertical"></ion-icon>
+                <div class="option-menu">
+                  <li class="btnRemove">Remove</li>
+                </div>
+              
             </div>
         </div>
         `;
@@ -231,18 +236,30 @@ const app = {
     //Xử lý click vào song playlist
     playlist.onclick = function (e) {
       const songNode = e.target.closest(".song:not(.active)");
-      if (songNode || e.target.closest(".song-option")) {
-        if (songNode) {
+      const optionNode = e.target.closest(".song-option");
+      const removeNode = e.target.closest(".btnRemove");
+      if (songNode || optionNode) {
+        if (songNode && !optionNode) {
           _this.currentIndex = songNode.dataset.index;
           _this.loadCurrentSong();
           _this.activeSong();
           player.classList.add("playing");
+          console.log("song" + songNode.dataset.index);
         }
-        if (e.target.closest(".song-option")) {
-          console.log("Option clicked");
+        if (optionNode) {
+          //btnOption.classList.add("active");
+          $(".song-option.active")?.classList.remove("active");
+          optionNode.classList.add("active");
+          console.log("option" + optionNode.dataset.index);
         }
       }
     };
+    //Xử lý ẩn <li>remove</li> click ra ngoài
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".playlist,.song-option")) {
+        $(".song-option.active")?.classList.remove("active");
+      }
+    });
   },
 
   loadCurrentSong: function () {
